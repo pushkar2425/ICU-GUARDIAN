@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI ICU Guardian - Medical Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>ICU Guardian</span>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item active" data-section="dashboard">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="patients">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Patients</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="alerts">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Alerts</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="analytics">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="settings">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">ICU Dashboard</h1>
+                    <nav class="breadcrumb">
+                        <span id="breadcrumbPath">Dashboard</span>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="current-time" id="currentTime">
+                        Tuesday, August 12, 2025 - 11:00 AM IST
+                    </div>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">5</span>
+                    </div>
+                    <div class="doctor-profile">
+                        <div class="doctor-info">
+                            <span class="doctor-name">Dr. Vaibhav</span>
+                            <span class="doctor-role">ICU Physician</span>
+                        </div>
+                        <div class="doctor-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Section -->
+            <div class="content-section active" id="dashboard-section">
+                <div class="dashboard-content">
+                    <!-- Overview Cards -->
+                    <section class="overview-section">
+                        <div class="overview-cards">
+                            <div class="overview-card total-patients">
+                                <div class="card-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value" id="totalPatients">6</h3>
+                                    <p class="card-label">Total Patients</p>
+                                </div>
+                            </div>
+                            <div class="overview-card critical-patients">
+                                <div class="card-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value" id="criticalPatients">2</h3>
+                                    <p class="card-label">Critical Patients</p>
+                                </div>
+                            </div>
+                            <div class="overview-card stable-patients">
+                                <div class="card-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value" id="stablePatients">3</h3>
+                                    <p class="card-label">Stable Patients</p>
+                                </div>
+                            </div>
+                            <div class="overview-card avg-stay">
+                                <div class="card-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value" id="avgStay">3.2</h3>
+                                    <p class="card-label">Avg Stay (days)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Real-time Vital Signs -->
+                    <section class="vitals-section">
+                        <div class="section-header">
+                            <h2>Real-time Vital Signs</h2>
+                            <div class="patient-selector">
+                                <select id="patientSelector" class="form-control">
+                                    <option value="P001">Pushkar Singh - ICU-101</option>
+                                    <option value="P002">Ketan Verma - ICU-102</option>
+                                    <option value="P003">Piyush - ICU-103</option>
+                                    <option value="P004">Saurabh - ICU-104</option>
+                                    <option value="P005">Anshuman - ICU-105</option>
+                                    <option value="P006">Ayan - ICU-106</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="vital-cards">
+                            <div class="vital-card">
+                                <div class="vital-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div class="vital-content">
+                                    <h4>Heart Rate</h4>
+                                    <div class="vital-value" id="heartRate">78</div>
+                                    <div class="vital-unit">BPM</div>
+                                    <div class="vital-status normal" id="heartRateStatus">Normal</div>
+                                </div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="vital-content">
+                                    <h4>Blood Pressure</h4>
+                                    <div class="vital-value" id="bloodPressure">125/82</div>
+                                    <div class="vital-unit">mmHg</div>
+                                    <div class="vital-status normal" id="bloodPressureStatus">Normal</div>
+                                </div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">
+                                    <i class="fas fa-lungs"></i>
+                                </div>
+                                <div class="vital-content">
+                                    <h4>Oxygen Saturation</h4>
+                                    <div class="vital-value" id="oxygenSat">97</div>
+                                    <div class="vital-unit">%</div>
+                                    <div class="vital-status normal" id="oxygenSatStatus">Normal</div>
+                                </div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <div class="vital-content">
+                                    <h4>Respiratory Rate</h4>
+                                    <div class="vital-value" id="respiratoryRate">16</div>
+                                    <div class="vital-unit">breaths/min</div>
+                                    <div class="vital-status normal" id="respiratoryRateStatus">Normal</div>
+                                </div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="vital-content">
+                                    <h4>Temperature</h4>
+                                    <div class="vital-value" id="temperature">98.6</div>
+                                    <div class="vital-unit">°F</div>
+                                    <div class="vital-status normal" id="temperatureStatus">Normal</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Current ICU Patients -->
+                    <section class="patients-section">
+                        <div class="section-header">
+                            <h2>Current ICU Patients</h2>
+                            <div class="last-updated" id="lastUpdated">Last updated: just now</div>
+                        </div>
+                        <div class="patients-grid" id="patientsGrid">
+                            <!-- Patient cards will be populated by JavaScript -->
+                        </div>
+                    </section>
+
+                    <!-- Recent Alerts -->
+                    <section class="alerts-section">
+                        <div class="section-header">
+                            <h2>Recent Alerts</h2>
+                            <button class="btn btn--outline btn--sm" id="clearAllAlerts">Clear All</button>
+                        </div>
+                        <div class="alerts-list" id="alertsList">
+                            <!-- Alerts will be populated by JavaScript -->
+                        </div>
+                    </section>
+
+                    <!-- Analytics -->
+                    <section class="analytics-section">
+                        <div class="analytics-grid">
+                            <div class="analytics-card">
+                                <div class="card-header">
+                                    <h3>Patient Admissions (Last 7 Days)</h3>
+                                </div>
+                                <div class="chart-container" style="position: relative; height: 300px;">
+                                    <canvas id="admissionsChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="analytics-card">
+                                <div class="card-header">
+                                    <h3>Average Heart Rate Trend (24 Hours)</h3>
+                                </div>
+                                <div class="chart-container" style="position: relative; height: 300px;">
+                                    <canvas id="vitalTrendChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Patients Content Section -->
+            <div class="content-section" id="patients-section">
+                <div class="section-content">
+                    <div class="section-header">
+                        <h2>Patient Management</h2>
+                        <div class="section-actions">
+                            <button class="btn btn--outline btn--sm" id="exportPatients">Export List</button>
+                            <button class="btn btn--primary btn--sm" id="addPatient">Add Patient</button>
+                        </div>
+                    </div>
+                    
+                    <div class="patients-filters">
+                        <div class="filter-group">
+                            <input type="text" class="form-control" id="patientSearch" placeholder="Search patients...">
+                        </div>
+                        <div class="filter-group">
+                            <select class="form-control" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="critical">Critical</option>
+                                <option value="stable">Stable</option>
+                                <option value="improving">Improving</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <select class="form-control" id="riskFilter">
+                                <option value="">All Risk Levels</option>
+                                <option value="high">High Risk</option>
+                                <option value="medium">Medium Risk</option>
+                                <option value="low">Low Risk</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="patients-detailed-list" id="patientsDetailedList">
+                        <!-- Detailed patient cards will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts Content Section -->
+            <div class="content-section" id="alerts-section">
+                <div class="section-content">
+                    <div class="section-header">
+                        <h2>Alert Management</h2>
+                        <div class="section-actions">
+                            <button class="btn btn--outline btn--sm" id="alertSettings">Settings</button>
+                            <button class="btn btn--primary btn--sm" id="dismissAllAlerts">Dismiss All</button>
+                        </div>
+                    </div>
+
+                    <div class="alert-filters">
+                        <div class="filter-group">
+                            <button class="btn btn--outline filter-btn active" data-filter="all">All Alerts</button>
+                            <button class="btn btn--outline filter-btn" data-filter="critical">Critical</button>
+                            <button class="btn btn--outline filter-btn" data-filter="warning">Warning</button>
+                            <button class="btn btn--outline filter-btn" data-filter="info">Info</button>
+                        </div>
+                        <div class="filter-group">
+                            <select class="form-control" id="alertTimeFilter">
+                                <option value="">All Time</option>
+                                <option value="1h">Last Hour</option>
+                                <option value="24h">Last 24 Hours</option>
+                                <option value="7d">Last 7 Days</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="alert-stats">
+                        <div class="stat-card critical-stat">
+                            <div class="stat-value" id="criticalAlertCount">2</div>
+                            <div class="stat-label">Critical Alerts</div>
+                        </div>
+                        <div class="stat-card warning-stat">
+                            <div class="stat-value" id="warningAlertCount">2</div>
+                            <div class="stat-label">Warning Alerts</div>
+                        </div>
+                        <div class="stat-card info-stat">
+                            <div class="stat-value" id="infoAlertCount">1</div>
+                            <div class="stat-label">Info Alerts</div>
+                        </div>
+                    </div>
+
+                    <div class="alerts-detailed-list" id="alertsDetailedList">
+                        <!-- Detailed alerts will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Content Section -->
+            <div class="content-section" id="analytics-section">
+                <div class="section-content">
+                    <div class="section-header">
+                        <h2>Analytics & Reports</h2>
+                        <div class="section-actions">
+                            <select class="form-control" id="dateRangeFilter">
+                                <option value="7d">Last 7 Days</option>
+                                <option value="30d">Last 30 Days</option>
+                                <option value="90d">Last 90 Days</option>
+                            </select>
+                            <button class="btn btn--primary btn--sm" id="exportReport">Export Report</button>
+                        </div>
+                    </div>
+
+                    <div class="analytics-detailed-grid">
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3>Admission Trends</h3>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="detailedAdmissionsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3>ICU Occupancy Rate</h3>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="occupancyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3>Alert Frequency Analysis</h3>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="alertFrequencyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3>Patient Status Distribution</h3>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="statusDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Content Section -->
+            <div class="content-section" id="settings-section">
+                <div class="section-content">
+                    <div class="section-header">
+                        <h2>Settings & Configuration</h2>
+                        <div class="section-actions">
+                            <button class="btn btn--outline btn--sm" id="resetSettings">Reset to Defaults</button>
+                            <button class="btn btn--primary btn--sm" id="saveSettings">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" data-tab="notifications">Notifications</button>
+                        <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+                        <button class="tab-btn" data-tab="alerts">Alert Thresholds</button>
+                        <button class="tab-btn" data-tab="profile">Profile</button>
+                    </div>
+
+                    <div class="settings-content">
+                        <!-- Notifications Settings -->
+                        <div class="settings-tab active" id="notifications-tab">
+                            <div class="settings-group">
+                                <h3>Notification Preferences</h3>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="criticalAlertsToggle" checked>
+                                        Critical Alert Notifications
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="warningAlertsToggle" checked>
+                                        Warning Alert Notifications
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="infoAlertsToggle">
+                                        Info Alert Notifications
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="emailNotificationsToggle" checked>
+                                        Email Notifications
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="soundAlertsToggle" checked>
+                                        Sound Alerts
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard Settings -->
+                        <div class="settings-tab" id="dashboard-tab">
+                            <div class="settings-group">
+                                <h3>Dashboard Preferences</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Refresh Interval</label>
+                                    <select class="form-control" id="refreshIntervalSelect">
+                                        <option value="15">15 seconds</option>
+                                        <option value="30" selected>30 seconds</option>
+                                        <option value="60">1 minute</option>
+                                        <option value="300">5 minutes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="compactModeToggle">
+                                        Compact Mode
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="showPatientPhotosToggle">
+                                        Show Patient Photos
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alert Thresholds -->
+                        <div class="settings-tab" id="alerts-tab">
+                            <div class="settings-group">
+                                <h3>Alert Threshold Configuration</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Heart Rate High Threshold</label>
+                                    <input type="number" class="form-control" id="heartRateHighThreshold" value="120" min="100" max="200">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Heart Rate Low Threshold</label>
+                                    <input type="number" class="form-control" id="heartRateLowThreshold" value="50" min="30" max="80">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Blood Pressure High Threshold</label>
+                                    <input type="number" class="form-control" id="bloodPressureHighThreshold" value="160" min="140" max="200">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Blood Pressure Low Threshold</label>
+                                    <input type="number" class="form-control" id="bloodPressureLowThreshold" value="80" min="60" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Oxygen Saturation Low Threshold</label>
+                                    <input type="number" class="form-control" id="oxygenSatLowThreshold" value="92" min="85" max="95">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Temperature High Threshold</label>
+                                    <input type="number" class="form-control" id="temperatureHighThreshold" value="102" min="99" max="105" step="0.1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Settings -->
+                        <div class="settings-tab" id="profile-tab">
+                            <div class="settings-group">
+                                <h3>Profile Information</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="doctorNameInput" value="Dr. Smith">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Role</label>
+                                    <input type="text" class="form-control" id="doctorRoleInput" value="ICU Physician">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="doctorEmailInput" value="dr.smith@hospital.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="doctorPhoneInput" value="+1 (555) 123-4567">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
